@@ -26,6 +26,7 @@ AI tools were used to accelerate development and improve productivity.
 ## LLM Choice
 
 **Model:** llama-3.1-8b-instant (free available)
+
 **Reason:**
 
 * Fast response time
