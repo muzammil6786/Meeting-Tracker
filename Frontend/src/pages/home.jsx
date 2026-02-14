@@ -8,6 +8,7 @@ export default function Home() {
   const [actions, setActions] = useState([]);
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(false);
+  const [refreshHistory, setRefreshHistory] = useState(false);
 
   const load = () => getActions().then(setActions);
 
@@ -16,30 +17,34 @@ export default function Home() {
   }, []);
 
   const handleExtract = async () => {
-    if (!text.trim()) {
-      alert("Please enter transcript");
-      return;
-    }
+  if (!text.trim()) {
+    alert("Please enter transcript");
+    return;
+  }
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      const items = await extractActions(text);
+  try {
+    const items = await extractActions(text);
 
-      if (Array.isArray(items)) {
-        for (let item of items) {
-          await addAction(item);
-        }
+    if (Array.isArray(items)) {
+      for (let item of items) {
+        await addAction(item);
       }
-
-      setText("");
-      load();
-    } catch {
-      alert("Extraction failed");
     }
 
-    setLoading(false);
-  };
+    setText("");
+    load();
+
+    setRefreshHistory(prev => !prev);
+
+  } catch {
+    alert("Extraction failed");
+  }
+
+  setLoading(false);
+};
+
 
   const filtered = actions.filter((a) => {
     if (filter === "open") return !a.done;
@@ -82,7 +87,7 @@ export default function Home() {
 
       <ActionList actions={filtered} reload={load} />
 
-      <TranscriptHistory />
+<TranscriptHistory refresh={refreshHistory} />
     </div>
   );
 }
