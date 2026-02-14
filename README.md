@@ -5,6 +5,7 @@
 A mini workspace to extract and manage action items from meeting transcripts using an LLM.
 
 ---
+## Live Link :- https://meetingtracker-pi.vercel.app/
 
 ## Features
 
